@@ -8,7 +8,11 @@
 
 **初始化DirectConnectionSqlExecutor**
 ```java
-ConnectionHolder connectionHolder = new ConnectionHolder("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost:3306/test", "root", "123456");
+ConnectionHolder connectionHolder = ConnectionHolder.builder()
+        .driver("com.mysql.cj.jdbc.Driver")
+        .jdbcUrl("jdbc:mysql://localhost:3306/test")
+        .username("root")
+        .password("123456").build();
 sqlExecutor = new DirectConnectionSqlExecutor(connectionHolder);
 ```
 **初始化DataSourceSqlExecutor**
