@@ -10,11 +10,13 @@ import com.zys.nativejdbc.core.DirectConnectionSqlExecutor;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author junekzhong

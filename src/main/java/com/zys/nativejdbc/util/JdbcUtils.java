@@ -1,4 +1,4 @@
-package com.zys.nativejdbc.core;
+package com.zys.nativejdbc.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;

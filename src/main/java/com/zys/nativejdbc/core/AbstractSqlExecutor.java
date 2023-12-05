@@ -1,7 +1,7 @@
 package com.zys.nativejdbc.core;
 
 import com.zys.nativejdbc.api.*;
-import sun.reflect.misc.ReflectUtil;
+import com.zys.nativejdbc.util.JdbcUtils;
 
 import java.lang.reflect.Field;
 import java.sql.*;
@@ -320,6 +320,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         Connection connection = null;
         try {
             connection = get();
+            connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < params.size(); i++) {
                 Object[] subParams = params.get(i);
@@ -329,6 +330,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
                 preparedStatement.addBatch();
             }
             int[] ints = preparedStatement.executeBatch();
+            connection.commit();
             return ints.length;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -342,11 +344,13 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         Connection connection = null;
         try {
             connection = get();
+            connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < bpss.batchSize(); i++) {
                 bpss.setValues(preparedStatement, i);
             }
             int[] ints = preparedStatement.executeBatch();
+            connection.commit();
             return ints.length;
         } catch (SQLException e) {
             throw new RuntimeException(e);
