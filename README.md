@@ -6,36 +6,32 @@
 
 ## 示例
 
-查询
+**初始化DirectConnectionSqlExecutor**
 ```java
-Map result = sqlExecutor.query(sql, new RowConverter<Map>() {
-    @Override
-    public Map convert(ResultSet resultSet) {
-        Map data = new HashMap();
-        try {
-            data.put("orderCode", resultSet.getString("order_code"));
-            data.put("tableName", resultSet.getString("table_name"));
-            data.put("totalData", resultSet.getLong("total_data"));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return data;
-    }
-});
+ConnectionHolder connectionHolder = new ConnectionHolder("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost:3306/test", "root", "123456");
+sqlExecutor = new DirectConnectionSqlExecutor(connectionHolder);
+```
+**初始化DataSourceSqlExecutor**
+```java
+DruidDataSource dataSource = new DruidDataSource();
+dataSource.setUsername("root");
+dataSource.setPassword("123456");
+dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+datasourceSqlExecutor = new DatasourceSqlExecutor(dataSource);
+```
 
-GuijiTableEntity query = sqlExecutor.query(sql, GuijiTableEntity.class);
+**查询单条数据**
 
-List<GuijiTableEntity> guijiTableEntities = datasourceSqlExecutor.queryForList(wsql, GuijiTableEntity.class);
-
-guijiTableEntities = sqlExecutor.queryForList(wsql, new RowConverter<GuijiTableEntity>() {
-
+> 1.RowConvert方式
+```java
+GuijiTableEntity result = sqlExecutor.query(sql, new RowConverter<GuijiTableEntity>() {
     @Override
     public GuijiTableEntity convert(ResultSet resultSet) {
         GuijiTableEntity guijiTableEntity = new GuijiTableEntity();
         try {
+            guijiTableEntity.setOrder_code(resultSet.getString("order_code"));
             guijiTableEntity.setTable_name(resultSet.getString("table_name"));
             guijiTableEntity.setTotal_data(resultSet.getString("total_data"));
-            guijiTableEntity.setOrder_code(resultSet.getString("order_code"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -43,27 +39,45 @@ guijiTableEntities = sqlExecutor.queryForList(wsql, new RowConverter<GuijiTableE
     }
 });
 ```
+---
 
-执行事务操作
+> 2.Class方式
+```java
+GuijiTableEntity query = sqlExecutor.query(sql, GuijiTableEntity.class);
+```
+---
+> 3.Map方式
+```java
+Map<String, Object> data = sqlExecutor.queryForMap(sql);
+```
+---
+> 4.带参数
+```java
+GuijiTableEntity data = sqlExecutor.query(wsql, Arrays.asList(523584), GuijiTableEntity.class);
+```
+---
 
-非批量操作
+**查询列表**
+
+这里就不一一列举所有的方法了，与单个查询类似，列表查询也提供了多种方式进行构建，这里使用class方式来演示
+```java
+List<GuijiTableEntity> guijiTableEntities = datasourceSqlExecutor.queryForList(wsql, GuijiTableEntity.class);
+```
+
+**执行非查询操作**
+
+> 1.执行insert语句
 ```java
 String executeSql = "insert into test values(?)";
 sqlExecutor.execute(executeSql, Arrays.asList(6));
 ```
-
-批量操作
-
+> 2.批量执行insert语句
 ```java
-String executeSql = "insert into test values(?)";
-        
-Object[] objects = {7};
-Object[] objects2 = {8};
-Object[] objects3 = {9};
-final List<Object[]> list = Arrays.asList(objects, objects2, objects3);
-        
+List<Object[]> list = Arrays.asList(objects, objects2, objects3);
 sqlExecutor.batchExecute(executeSql, list);
-
+```
+> 3.BatchPreparedStatementSetter方式实现批量执行
+```java
 sqlExecutor.batchExecute(executeSql, new BatchPreparedStatementSetter() {
     @Override
     public int batchSize() {
@@ -84,3 +98,8 @@ sqlExecutor.batchExecute(executeSql, new BatchPreparedStatementSetter() {
     }
 });
 ```
+
+## 结束语
+
+以上就是本项目主要实现的功能了，主要是简单的数据库增删改查。
+

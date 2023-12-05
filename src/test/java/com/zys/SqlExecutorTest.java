@@ -43,18 +43,18 @@ public class SqlExecutorTest {
 
     @Test
     public void testQueryForRowConverter() {
-        Map result = sqlExecutor.query(sql, new RowConverter<Map>() {
+        GuijiTableEntity result = sqlExecutor.query(sql, new RowConverter<GuijiTableEntity>() {
             @Override
-            public Map convert(ResultSet resultSet) {
-                Map data = new HashMap();
+            public GuijiTableEntity convert(ResultSet resultSet) {
+                GuijiTableEntity guijiTableEntity = new GuijiTableEntity();
                 try {
-                    data.put("orderCode", resultSet.getString("order_code"));
-                    data.put("tableName", resultSet.getString("table_name"));
-                    data.put("totalData", resultSet.getLong("total_data"));
+                    guijiTableEntity.setOrder_code(resultSet.getString("order_code"));
+                    guijiTableEntity.setTable_name(resultSet.getString("table_name"));
+                    guijiTableEntity.setTotal_data(resultSet.getString("total_data"));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                return data;
+                return guijiTableEntity;
             }
         });
         System.out.println(result);

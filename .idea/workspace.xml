@@ -5,27 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="acc2f795-79f6-4f5f-812e-2bf351ed6b99" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/api/BatchPreparedStatementSetter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/api/ConnectionFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/api/PreparedStatementSetter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/api/RowConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/api/SqlExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/AbstractSqlExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/ConnectionHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/DatasourceSqlExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/DirectConnectionSqlExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/JdbcUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/ResultSetWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/zys/GuijiTableEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/zys/SqlExecutorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/zys/SqlExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/zys/SqlExecutorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,10 +47,11 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.SqlExecutorTest.testQueryList">
+  <component name="RunManager" selected="JUnit.SqlExecutorTest.testQueryForRowConverter">
     <configuration name="SqlExecutorTest.execute" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="native-jdbc" />
       <extension name="coverage">
@@ -152,9 +134,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SqlExecutorTest.testQueryForRowConverter" />
         <item itemvalue="JUnit.SqlExecutorTest.testQueryList" />
         <item itemvalue="JUnit.SqlExecutorTest.testQueryForClass" />
-        <item itemvalue="JUnit.SqlExecutorTest.testQueryForRowConverter" />
         <item itemvalue="JUnit.SqlExecutorTest.testQueryMap" />
         <item itemvalue="JUnit.SqlExecutorTest.execute" />
       </list>
@@ -168,7 +150,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701740437162</updated>
-      <workItem from="1701740438623" duration="12325000" />
+      <workItem from="1701740438623" duration="16181000" />
     </task>
     <servers />
   </component>
