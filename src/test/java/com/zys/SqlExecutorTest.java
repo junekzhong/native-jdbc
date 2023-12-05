@@ -1,11 +1,9 @@
 package com.zys;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.zys.nativejdbc.api.BatchPreparedStatementSetter;
 import com.zys.nativejdbc.api.RowConverter;
 import com.zys.nativejdbc.api.SqlExecutor;
 import com.zys.nativejdbc.core.ConnectionHolder;
-import com.zys.nativejdbc.core.DatasourceSqlExecutor;
 import com.zys.nativejdbc.core.DirectConnectionSqlExecutor;
 import org.junit.Before;
 import org.junit.Test;
