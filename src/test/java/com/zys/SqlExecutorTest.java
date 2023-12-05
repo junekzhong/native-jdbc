@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +33,11 @@ public class SqlExecutorTest {
     public void init() {
         ConnectionHolder connectionHolder = new ConnectionHolder("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost:3306/test", "root", "123456");
         sqlExecutor = new DirectConnectionSqlExecutor(connectionHolder);
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUsername("root");
-        dataSource.setPassword("123456");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
-        datasourceSqlExecutor = new DatasourceSqlExecutor(dataSource);
+//        DruidDataSource dataSource = new DruidDataSource();
+//        dataSource.setUsername("root");
+//        dataSource.setPassword("123456");
+//        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+//        datasourceSqlExecutor = new DatasourceSqlExecutor(dataSource);
     }
 
     @Test
