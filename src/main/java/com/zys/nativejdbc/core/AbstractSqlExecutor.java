@@ -1,7 +1,6 @@
 package com.zys.nativejdbc.core;
 
 import com.zys.nativejdbc.api.*;
-import com.zys.nativejdbc.util.JdbcUtils;
 
 import java.lang.reflect.Field;
 import java.sql.*;
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
  * @author junekzhong
  * @date 2023/12/5 10:39
  */
@@ -32,7 +32,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -76,7 +76,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -100,7 +100,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -118,7 +118,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -140,7 +140,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -158,7 +158,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -180,7 +180,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -202,7 +202,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -224,7 +224,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -245,7 +245,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -266,7 +266,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -279,7 +279,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -296,7 +296,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -311,7 +311,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -335,7 +335,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 
@@ -355,7 +355,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            JdbcUtils.close(connection);
+            close(connection);
         }
     }
 

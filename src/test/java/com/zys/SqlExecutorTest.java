@@ -29,7 +29,11 @@ public class SqlExecutorTest {
 
     @Before
     public void init() {
-        ConnectionHolder connectionHolder = new ConnectionHolder("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost:3306/test", "root", "123456");
+        ConnectionHolder connectionHolder = ConnectionHolder.builder()
+                .driver("com.mysql.cj.jdbc.Driver")
+                .jdbcUrl("jdbc:mysql://localhost:3306/test")
+                .username("root")
+                .password("123456").build();
         sqlExecutor = new DirectConnectionSqlExecutor(connectionHolder);
 //        DruidDataSource dataSource = new DruidDataSource();
 //        dataSource.setUsername("root");
