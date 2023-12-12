@@ -6,22 +6,22 @@
 
 ## 示例
 
-**初始化DirectConnectionSqlExecutor**
+**初始化DirectConnectSqlExecutor**
 ```java
 ConnectionHolder connectionHolder = ConnectionHolder.builder()
         .driver("com.mysql.cj.jdbc.Driver")
         .jdbcUrl("jdbc:mysql://localhost:3306/test")
         .username("root")
         .password("123456").build();
-sqlExecutor = new DirectConnectionSqlExecutor(connectionHolder);
+sqlExecutor = new DirectConnectSqlExecutor(connectionHolder);
 ```
-**初始化DataSourceSqlExecutor**
+**初始化PooledSqlExecutor**
 ```java
 DruidDataSource dataSource = new DruidDataSource();
 dataSource.setUsername("root");
 dataSource.setPassword("123456");
 dataSource.setUrl("jdbc:mysql://localhost:3306/test");
-datasourceSqlExecutor = new DatasourceSqlExecutor(dataSource);
+datasourceSqlExecutor = new PooledSqlExecutor(dataSource);
 ```
 
 **查询单条数据**

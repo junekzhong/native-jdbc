@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acc2f795-79f6-4f5f-812e-2bf351ed6b99" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/zys/TestBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/api/ConnectionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/api/ConnectionFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/AbstractSqlExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/AbstractSqlExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/ConnectionHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/core/ConnectionHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zys/nativejdbc/util/JdbcUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/zys/SqlExecutorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/zys/SqlExecutorTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="acc2f795-79f6-4f5f-812e-2bf351ed6b99" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,9 +45,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -157,7 +150,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701740437162</updated>
-      <workItem from="1701740438623" duration="19682000" />
+      <workItem from="1701740438623" duration="20749000" />
     </task>
     <servers />
   </component>

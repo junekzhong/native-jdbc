@@ -10,11 +10,11 @@ import java.sql.SQLException;
  * @author junekzhong
  * @date 2023/12/5 14:43
  */
-public class DatasourceSqlExecutor extends AbstractSqlExecutor {
+public class PooledSqlExecutor extends AbstractSqlExecutor {
 
     private DataSource dataSource;
 
-    public DatasourceSqlExecutor(DataSource dataSource) {
+    public PooledSqlExecutor(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

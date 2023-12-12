@@ -4,7 +4,7 @@ import com.zys.nativejdbc.api.BatchPreparedStatementSetter;
 import com.zys.nativejdbc.api.RowConverter;
 import com.zys.nativejdbc.api.SqlExecutor;
 import com.zys.nativejdbc.core.ConnectionHolder;
-import com.zys.nativejdbc.core.DirectConnectionSqlExecutor;
+import com.zys.nativejdbc.core.DirectConnectSqlExecutor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +34,7 @@ public class SqlExecutorTest {
                 .jdbcUrl("jdbc:mysql://localhost:3306/test")
                 .username("root")
                 .password("123456").build();
-        sqlExecutor = new DirectConnectionSqlExecutor(connectionHolder);
+        sqlExecutor = new DirectConnectSqlExecutor(connectionHolder);
 //        DruidDataSource dataSource = new DruidDataSource();
 //        dataSource.setUsername("root");
 //        dataSource.setPassword("123456");
