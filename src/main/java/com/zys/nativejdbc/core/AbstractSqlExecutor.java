@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 抽象类，内部实现了具体的sql执行逻辑
  *
  * @author junekzhong
  * @date 2023/12/5 10:39
@@ -329,12 +330,6 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
     }
 
     private String checkSingleRowErrorTip = "预期返回1条数据，当前返回超过1条数据";
-
-    private void checkSingleRow(int rowCount) {
-        if (rowCount > 1) {
-            throw new InvalidResultException(checkSingleRowErrorTip);
-        }
-    }
 
     private void checkSingleData(List data) {
         if (null != data && data.size() > 1) {
