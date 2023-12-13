@@ -6,6 +6,15 @@
 
 ## 示例
 
+**引入依赖**
+```xml
+<dependency>
+    <groupId>com.zys</groupId>
+    <artifactId>native-jdbc</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
 **初始化DirectConnectSqlExecutor**
 ```java
 ConnectionHolder connectionBuilder = ConnectionHolder.builder()
