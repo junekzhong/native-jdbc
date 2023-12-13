@@ -1,6 +1,7 @@
 package com.zys.nativejdbc.core;
 
 import com.zys.nativejdbc.api.*;
+import com.zys.nativejdbc.exception.InvalidResultException;
 
 import java.lang.reflect.Field;
 import java.sql.*;
@@ -18,138 +19,51 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
 
     @Override
     public <T> T query(String sql, RowConverter<T> rowConverter) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResult(sql, connection);
-            int rowCount = 0;
-            T result = null;
-            while (resultSet.next()) {
-                checkSingleRow(++rowCount);
-                result = rowConverter.convert(resultSet);
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        return query(sql, null, rowConverter);
     }
 
     @Override
     public <T> T query(String sql, Class<T> tClass) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResult(sql, connection);
-            int rowCount = 0;
-            T result = null;
-            while (resultSet.next()) {
-                checkSingleRow(++rowCount);
-                result = convertResult2ClassEntity(tClass, resultSet);
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        return query(sql, null, tClass);
     }
 
     @Override
     public <T> T query(String sql, List params, RowConverter<T> rowConverter) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResultWithParams(sql, connection, params);
-            int rowCount = 0;
-            T result = null;
-            while (resultSet.next()) {
-                checkSingleRow(++rowCount);
-                result = rowConverter.convert(resultSet);
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        List<T> result = queryForList(sql, params, rowConverter);
+        checkSingleData(result);
+        return result.get(0);
     }
 
     @Override
     public <T> T query(String sql, List params, Class<T> tClass) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResultWithParams(sql, connection, params);
-            int rowCount = 0;
-            T result = null;
-            while (resultSet.next()) {
-                checkSingleRow(++rowCount);
-                result = convertResult2ClassEntity(tClass, resultSet);
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        List<T> result = queryForList(sql, params, tClass);
+        checkSingleData(result);
+        return result.get(0);
     }
 
     @Override
     public <T> List<T> queryForList(String sql, RowConverter<T> rowConverter) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResult(sql, connection);
-            List<T> result = new ArrayList<>();
-            while (resultSet.next()) {
-                result.add(rowConverter.convert(resultSet));
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        return queryForList(sql, null ,rowConverter);
     }
 
     @Override
     public <T> List<T> queryForList(String sql, Class<T> tClass) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResult(sql, connection);
-            List<T> result = new ArrayList<>();
-            while (resultSet.next()) {
-                result.add(convertResult2ClassEntity(tClass, resultSet));
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        return queryForList(sql, null, tClass);
     }
 
     @Override
     public <T> List<T> queryForList(String sql, List params, RowConverter<T> rowConverter) {
+        ResultSet resultSet = null;
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            connection = get();
-            ResultSet resultSet = getResultWithParams(sql, connection, params);
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            if (null != params && params.size() > 0) {
+                resultSet = getResultWithParams(statement, params);
+            } else {
+                resultSet = getResult(sql, statement);
+            }
             List<T> result = new ArrayList<>();
             while (resultSet.next()) {
                 result.add(rowConverter.convert(resultSet));
@@ -158,103 +72,70 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            close(resultSet);
+            close(statement);
             close(connection);
         }
     }
 
     @Override
     public <T> List<T> queryForList(String sql, List params, Class<T> tClass) {
+        ResultSet resultSet = null;
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            connection = get();
-            ResultSet resultSet = getResultWithParams(sql, connection, params);
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            if (null != params && params.size() > 0) {
+                resultSet = getResultWithParams(statement, params);
+            } else {
+                resultSet = getResult(sql, statement);
+            }
             List<T> result = new ArrayList<>();
             while (resultSet.next()) {
                 result.add(convertResult2ClassEntity(tClass, resultSet));
             }
             return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
+            close(resultSet);
             throw new RuntimeException(e);
         } finally {
+            close(resultSet);
+            close(statement);
             close(connection);
         }
     }
 
     @Override
     public Map<String, Object> queryForMap(String sql) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResult(sql, connection);
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            int rowCount = 0;
-            Map<String, Object> result = null;
-            while (resultSet.next()) {
-                checkSingleRow(++rowCount);
-                result = convertResult2Map(columnCount, metaData, resultSet);
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        return queryForMap(sql, null);
     }
 
     @Override
     public Map<String, Object> queryForMap(String sql, List params) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResultWithParams(sql, connection, params);
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            int rowCount = 0;
-            Map<String, Object> result = null;
-            while (resultSet.next()) {
-                checkSingleRow(++rowCount);
-                result = convertResult2Map(columnCount, metaData, resultSet);
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        List<Map<String, Object>> result = queryForMapList(sql, params);
+        checkSingleData(result);
+        return result.get(0);
     }
 
     @Override
     public List<Map<String, Object>> queryForMapList(String sql) {
-        Connection connection = null;
-        try {
-            connection = get();
-            ResultSet resultSet = getResult(sql, connection);
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            List<Map<String, Object>> result = new ArrayList<>();
-            while (resultSet.next()) {
-                Map<String, Object> data = convertResult2Map(columnCount, metaData, resultSet);
-                result.add(data);
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(connection);
-        }
+        return queryForMapList(sql, null);
     }
 
     @Override
     public List<Map<String, Object>> queryForMapList(String sql, List params) {
+        ResultSet resultSet = null;
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            connection = get();
-            ResultSet resultSet = getResultWithParams(sql, connection, params);
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            if (null != params && params.size() > 0) {
+                resultSet = getResultWithParams(statement, params);
+            } else {
+                resultSet = getResult(sql, statement);
+            }
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
             List<Map<String, Object>> result = new ArrayList<>();
@@ -266,6 +147,8 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            close(resultSet);
+            close(statement);
             close(connection);
         }
     }
@@ -273,12 +156,15 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
     @Override
     public int execute(String sql) {
         Connection connection = null;
+        Statement statement = null;
         try {
-            connection = get();
-            return connection.createStatement().executeUpdate(sql);
+            connection = getConnection();
+            statement = connection.createStatement();
+            return statement.executeUpdate(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            close(statement);
             close(connection);
         }
     }
@@ -286,9 +172,10 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
     @Override
     public int execute(String sql, List params) {
         Connection connection = null;
+        PreparedStatement preparedStatement = null;
         try {
-            connection = get();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < params.size(); i++) {
                 preparedStatement.setObject(i + 1, params.get(i));
             }
@@ -296,6 +183,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            close(preparedStatement);
             close(connection);
         }
     }
@@ -303,14 +191,16 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
     @Override
     public int execute(String sql, PreparedStatementSetter pss) {
         Connection connection = null;
+        PreparedStatement preparedStatement = null;
         try {
-            connection = get();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
             pss.setValues(preparedStatement);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            close(preparedStatement);
             close(connection);
         }
     }
@@ -318,10 +208,11 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
     @Override
     public int batchExecute(String sql, List<Object[]> params) {
         Connection connection = null;
+        PreparedStatement preparedStatement = null;
         try {
-            connection = get();
+            connection = getConnection();
             connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < params.size(); i++) {
                 Object[] subParams = params.get(i);
                 for (int j = 0; j < subParams.length; j ++) {
@@ -335,6 +226,7 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            close(preparedStatement);
             close(connection);
         }
     }
@@ -342,10 +234,11 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
     @Override
     public int batchExecute(String sql, BatchPreparedStatementSetter bpss) {
         Connection connection = null;
+        PreparedStatement preparedStatement = null;
         try {
-            connection = get();
+            connection = getConnection();
             connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < bpss.batchSize(); i++) {
                 bpss.setValues(preparedStatement, i);
             }
@@ -355,21 +248,60 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            close(preparedStatement);
             close(connection);
         }
     }
 
-    private ResultSet getResultWithParams(String sql, Connection connection, List params) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        for (int i = 0; i < params.size(); i++) {
-            preparedStatement.setObject((i + 1), params.get(i));
+    @Override
+    public long count(String sql) {
+        return count(sql, new ArrayList());
+    }
+
+    @Override
+    public long count(String sql, List params) {
+        String countSql = "select count(*) from (" + sql + ") countWrapperTable";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(countSql);
+            resultSet = getResultWithParams(preparedStatement, params);
+            long result = 0;
+            while (resultSet.next()) {
+                result = resultSet.getLong(1);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+            close(connection);
         }
-        ResultSet resultSet = preparedStatement.executeQuery();
+    }
+
+    private ResultSet getResultWithParams(PreparedStatement preparedStatement, List params) throws SQLException {
+        ResultSet resultSet;
+        try {
+            for (int i = 0; i < params.size(); i++) {
+                preparedStatement.setObject((i + 1), params.get(i));
+            }
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return resultSet;
     }
 
-    private ResultSet getResult(String sql, Connection connection) throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery(sql);
+    private ResultSet getResult(String sql, Statement statement) throws SQLException {
+        ResultSet resultSet;
+        try {
+            resultSet = statement.executeQuery(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return resultSet;
     }
 
@@ -396,9 +328,17 @@ public abstract class AbstractSqlExecutor implements SqlExecutor, ConnectionFact
         return result;
     }
 
+    private String checkSingleRowErrorTip = "预期返回1条数据，当前返回超过1条数据";
+
     private void checkSingleRow(int rowCount) {
         if (rowCount > 1) {
-            throw new RuntimeException("找到大于1条数据");
+            throw new InvalidResultException(checkSingleRowErrorTip);
+        }
+    }
+
+    private void checkSingleData(List data) {
+        if (null != data && data.size() > 1) {
+            throw new InvalidResultException(checkSingleRowErrorTip);
         }
     }
 }

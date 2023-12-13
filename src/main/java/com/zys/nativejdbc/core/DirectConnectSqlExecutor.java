@@ -10,16 +10,16 @@ import java.sql.Connection;
  */
 public class DirectConnectSqlExecutor extends AbstractSqlExecutor {
 
-    private ConnectionHolder connectionHolder;
+    private ConnectionBuilder connectionBuilder;
 
-    public DirectConnectSqlExecutor(ConnectionHolder connectionHolder) {
-        this.connectionHolder = connectionHolder;
+    public DirectConnectSqlExecutor(ConnectionBuilder connectionBuilder) {
+        this.connectionBuilder = connectionBuilder;
     }
 
     @Override
-    public Connection get() {
+    public Connection getConnection() {
         try {
-            return this.connectionHolder.open();
+            return this.connectionBuilder.open();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

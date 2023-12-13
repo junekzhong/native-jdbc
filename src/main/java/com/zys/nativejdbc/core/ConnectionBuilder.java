@@ -9,7 +9,7 @@ import java.sql.DriverManager;
  * @author junekzhong
  * @date 2023/12/5 10:26
  */
-public class ConnectionHolder {
+public class ConnectionBuilder {
 
     private String driver;
 
@@ -19,7 +19,7 @@ public class ConnectionHolder {
 
     private String password;
 
-    private ConnectionHolder() {
+    private ConnectionBuilder() {
 
     }
 
@@ -28,11 +28,11 @@ public class ConnectionHolder {
         return DriverManager.getConnection(jdbcUrl, username, password);
     }
 
-    public static ConnectionHolderBuilder builder() {
-        return new ConnectionHolderBuilder();
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public static class ConnectionHolderBuilder {
+    public static class Builder {
 
         private String driver;
 
@@ -42,36 +42,37 @@ public class ConnectionHolder {
 
         private String password;
 
-        public ConnectionHolderBuilder() {
+        private Builder() {
+
         }
 
-        public ConnectionHolderBuilder driver(String driver) {
+        public Builder driver(String driver) {
             this.driver = driver;
             return this;
         }
 
-        public ConnectionHolderBuilder jdbcUrl(String jdbcUrl) {
+        public Builder jdbcUrl(String jdbcUrl) {
             this.jdbcUrl = jdbcUrl;
             return this;
         }
 
-        public ConnectionHolderBuilder username(String username) {
+        public Builder username(String username) {
             this.username = username;
             return this;
         }
 
-        public ConnectionHolderBuilder password(String password) {
+        public Builder password(String password) {
             this.password = password;
             return this;
         }
 
-        public ConnectionHolder build() {
-            ConnectionHolder connectionHolder = new ConnectionHolder();
-            connectionHolder.driver = this.driver;
-            connectionHolder.jdbcUrl = this.jdbcUrl;
-            connectionHolder.username = this.username;
-            connectionHolder.password = this.password;
-            return connectionHolder;
+        public ConnectionBuilder build() {
+            ConnectionBuilder connectionBuilder = new ConnectionBuilder();
+            connectionBuilder.driver = this.driver;
+            connectionBuilder.jdbcUrl = this.jdbcUrl;
+            connectionBuilder.username = this.username;
+            connectionBuilder.password = this.password;
+            return connectionBuilder;
         }
     }
 

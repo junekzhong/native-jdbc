@@ -19,7 +19,7 @@ public class PooledSqlExecutor extends AbstractSqlExecutor {
     }
 
     @Override
-    public Connection get() {
+    public Connection getConnection() {
         try {
             return this.dataSource.getConnection();
         } catch (SQLException e) {

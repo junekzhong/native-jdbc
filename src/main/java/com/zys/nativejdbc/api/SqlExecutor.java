@@ -45,4 +45,7 @@ public interface SqlExecutor {
 
     int batchExecute(String sql, BatchPreparedStatementSetter bpss);
 
+    long count(String sql);
+
+    long count(String sql, List params);
 }
